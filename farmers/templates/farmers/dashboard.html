@@ -1,10 +1,214 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'farmers/css/dashboard.css' %}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="{% static 'farmers/js/dashboard.js' %}" defer></script>
 </head>
 <body>
-    <h1>Welcome {{ user.username }}</h1>
-    <p>This is your farmer dashboard.</p>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="site-title">🌾 Farmer Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span class="user-name">Welcome, John</span>
+                    <div class="user-avatar">👨‍🌾</div>
+                </div>
+                <button class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#dashboard" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#profile" class="nav-link">
+                        <span class="nav-icon">👤</span>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#reports" class="nav-link">
+                        <span class="nav-icon">📈</span>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#weather" class="nav-link">
+                        <span class="nav-icon">🌤️</span>
+                        Weather
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#calendar" class="nav-link">
+                        <span class="nav-icon">📅</span>
+                        Calendar
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-grid">
+                <!-- Stats Cards -->
+                <div class="stats-section">
+                    <div class="stats-card">
+                        <div class="stats-icon">🌱</div>
+                        <div class="stats-content">
+                            <h3 class="stats-number" id="totalCrops">24</h3>
+                            <p class="stats-label">Total Crops Added</p>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-icon">📋</div>
+                        <div class="stats-content">
+                            <h3 class="stats-number" id="upcomingTasks">7</h3>
+                            <p class="stats-label">Upcoming Tasks</p>
+                        </div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stats-icon">🚜</div>
+                        <div class="stats-content">
+                            <h3 class="stats-number" id="activeFields">12</h3>
+                            <p class="stats-label">Active Fields</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="weather-widget">
+                    <div class="widget-header">
+                        <h2>Weather Forecast</h2>
+                        <button class="refresh-btn" id="refreshWeather">🔄</button>
+                    </div>
+                    <div class="weather-content">
+                        <div class="weather-main">
+                            <div class="weather-icon" id="weatherIcon">☀️</div>
+                            <div class="weather-info">
+                                <div class="temperature" id="temperature">--°C</div>
+                                <div class="weather-condition" id="condition">Loading...</div>
+                                <div class="location" id="location">Getting location...</div>
+                            </div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Humidity</span>
+                                <span class="detail-value" id="humidity">--%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Wind Speed</span>
+                                <span class="detail-value" id="windSpeed">-- km/h</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Feels Like</span>
+                                <span class="detail-value" id="feelsLike">--°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Widget -->
+                <div class="calendar-widget">
+                    <div class="widget-header">
+                        <h2>Farm Calendar</h2>
+                        <div class="calendar-controls">
+                            <button class="calendar-btn" id="prevMonth">‹</button>
+                            <span class="current-month" id="currentMonth">Loading...</span>
+                            <button class="calendar-btn" id="nextMonth">›</button>
+                        </div>
+                    </div>
+                    <div class="calendar-content">
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be generated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="quick-add">
+                        <input type="text" id="eventInput" placeholder="Add a quick note or task...">
+                        <button id="addEvent">Add</button>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="activities-widget">
+                    <div class="widget-header">
+                        <h2>Recent Activities</h2>
+                    </div>
+                    <div class="activities-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">🌱</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Planted corn in Field A</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">💧</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Irrigation system activated</p>
+                                <span class="activity-time">4 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">🌾</div>
+                            <div class="activity-content">
+                                <p class="activity-text">Wheat harvest completed</p>
+                                <span class="activity-time">1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for adding calendar events -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Event</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="modalEventTitle" placeholder="Event title">
+                <textarea id="modalEventDescription" placeholder="Description (optional)"></textarea>
+                <div class="modal-date">
+                    <label>Date: <span id="selectedDate"></span></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="modalCancel">Cancel</button>
+                <button class="btn-save" id="modalSave">Save Event</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../static/farmers/js/dashboard.js"></script>
 </body>
 </html>
