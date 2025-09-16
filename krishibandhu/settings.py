@@ -57,7 +57,7 @@ ROOT_URLCONF = 'krishibandhu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,3 +131,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTH_USER_MODEL = 'farmers.FarmerUser'
+
+STATIC_URL = '/static/'
+
+# During development - where to look for project-wide static files
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
