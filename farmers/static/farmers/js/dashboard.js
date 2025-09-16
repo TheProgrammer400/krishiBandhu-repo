@@ -533,7 +533,7 @@ class WeatherForecast {
         const advice = [];
 
         if (condition.includes('rain')) {
-            advice.push('🌧️ Good day for indoor tasks. Avoid heavy field work.');
+            advice.push('🌧️ Good day for indoor tasks. Avoid heavpyy field work.');
         }
 
         if (temp > 30) {
